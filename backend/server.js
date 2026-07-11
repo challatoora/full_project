@@ -2,7 +2,7 @@ require("dotenv").config();
 
 const app = require("./app");
 
-const connectMySQL = require("./config/mysql");
+const { connectMySQL } = require("./config/mysql");
 const connectMongoDB = require("./config/mongodb");
 
 const PORT = process.env.PORT || 5000;
