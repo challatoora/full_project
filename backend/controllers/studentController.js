@@ -1,22 +1,22 @@
-const Student = require("../models/studentModel");
+const Student=require("../models/studentModel");
 
-exports.getStudents = async(req,res)=>{
+exports.getStudents=async(req,res)=>{
 
-    const students = await Student.getAllStudents();
+    const students=await Student.getStudents();
 
     res.json(students);
 
-}
+};
 
-exports.getStudent = async(req,res)=>{
+exports.getStudent=async(req,res)=>{
 
-    const student = await Student.getStudentById(req.params.id);
+    const student=await Student.getStudent(req.params.id);
 
     res.json(student);
 
-}
+};
 
-exports.addStudent = async(req,res)=>{
+exports.addStudent=async(req,res)=>{
 
     await Student.addStudent(req.body);
 
@@ -24,19 +24,22 @@ exports.addStudent = async(req,res)=>{
         message:"Student Added Successfully"
     });
 
-}
+};
 
-exports.updateStudent = async(req,res)=>{
+exports.updateStudent=async(req,res)=>{
 
-    await Student.updateStudent(req.params.id,req.body);
+    await Student.updateStudent(
+        req.params.id,
+        req.body
+    );
 
     res.json({
         message:"Student Updated Successfully"
     });
 
-}
+};
 
-exports.deleteStudent = async(req,res)=>{
+exports.deleteStudent=async(req,res)=>{
 
     await Student.deleteStudent(req.params.id);
 
@@ -44,4 +47,4 @@ exports.deleteStudent = async(req,res)=>{
         message:"Student Deleted Successfully"
     });
 
-}
+};

@@ -39,12 +39,12 @@ async function connectMySQL() {
 
     console.log("MySQL Connected");
 
-    await db.query("CREATE DATABASE IF NOT EXISTS studentdb");
+    await db.query(`CREATE DATABASE IF NOT EXISTS studentdb`);
 
-    await db.query("USE studentdb");
+    await db.query(`USE studentdb`);
 
     await db.query(`
-        CREATE TABLE IF NOT EXISTS students (
+        CREATE TABLE IF NOT EXISTS students(
             id INT AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(100),
             email VARCHAR(100),
@@ -53,10 +53,14 @@ async function connectMySQL() {
         )
     `);
 
-    console.log("Student table ready.");
+    console.log("Students table ready");
 }
 
-module.exports = {
+function getDB(){
+    return db;
+}
+
+module.exports={
     connectMySQL,
-    db
+    getDB
 };

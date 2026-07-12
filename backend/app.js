@@ -1,16 +1,20 @@
-const express = require("express");
-const cors = require("cors");
+const express=require("express");
+const cors=require("cors");
 
-const app = express();
+const studentRoutes=require("./routes/studentRoutes");
 
-// Middleware
+const app=express();
+
 app.use(cors());
+
 app.use(express.json());
 
-// Test Route
-app.get("/", (req, res) => {
-    res.status(200).send("Student Result Management API Running...");
+app.get("/",(req,res)=>{
+
+    res.send("Student Result Management API Running...");
+
 });
 
-// Export Express App
-module.exports = app;
+app.use("/students",studentRoutes);
+
+module.exports=app;
