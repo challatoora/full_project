@@ -1,24 +1,27 @@
 require("dotenv").config();
 
-const app = require("./app");
+const express=require("express");
 
-const { connectMySQL } = require("./config/mysql");
-const connectMongoDB = require("./config/mongodb");
+const {connectDB}=require("./config/mysql");
 
-const PORT = process.env.PORT || 5000;
 
-async function startServer() {
-  try {
-    await connectMySQL();
-    await connectMongoDB();
+const app=express();
 
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
 
-  } catch (error) {
-    console.log(error);
-  }
-}
+app.use(express.json());
 
-startServer();
+
+const studentRoutes=require("./routes/studentRoutes");
+
+app.use("/students",studentRoutes);
+
+
+
+connectDB();
+
+
+app.listen(process.env.PORT,()=>{
+
+console.log(`Server running on port ${process.env.PORT}`);
+
+});

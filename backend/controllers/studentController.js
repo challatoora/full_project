@@ -1,50 +1,65 @@
-const Student=require("../models/studentModel");
+const db = require("../config/db");
 
-exports.getStudents=async(req,res)=>{
 
-    const students=await Student.getStudents();
+exports.addStudent = (req,res)=>{
 
-    res.json(students);
+    const {
+        name,
+        email,
+        phone,
+        department
+    } = req.body;
 
-};
 
-exports.getStudent=async(req,res)=>{
+    // Validation
 
-    const student=await Student.getStudent(req.params.id);
+    if(!name || !email || !phone || !department){
 
-    res.json(student);
+        return res.status(400).json({
 
-};
+            message:"All fields are required"
 
-exports.addStudent=async(req,res)=>{
+        });
 
-    await Student.addStudent(req.body);
+    }
 
-    res.json({
-        message:"Student Added Successfully"
-    });
 
-};
+    const sql = `
+    INSERT INTO students
+    (name,email,phone,department)
+    VALUES(?,?,?,?)
+    `;
 
-exports.updateStudent=async(req,res)=>{
 
-    await Student.updateStudent(
-        req.params.id,
-        req.body
+    db.query(
+        sql,
+        [name,email,phone,department],
+        (err,result)=>{
+
+
+            if(err){
+
+                console.log(err);
+
+                return res.status(500).json({
+
+                    message:"Database Error"
+
+                });
+
+            }
+
+
+            res.status(201).json({
+
+                message:"Student Added Successfully",
+
+                id:result.insertId
+
+            });
+
+
+        }
     );
-
-    res.json({
-        message:"Student Updated Successfully"
-    });
-
-};
-
-exports.deleteStudent=async(req,res)=>{
-
-    await Student.deleteStudent(req.params.id);
-
-    res.json({
-        message:"Student Deleted Successfully"
-    });
 
 };
