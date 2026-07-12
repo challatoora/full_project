@@ -1,10 +1,10 @@
 #!/bin/bash
 
-echo "===== Updating System ====="
-sudo dnf update -y
+# echo "===== Updating System ====="
+# sudo dnf update -y
 
-echo "===== Installing Git ====="
-sudo dnf install git -y
+# echo "===== Installing Git ====="
+# sudo dnf install git -y
 
 echo "===== Installing Node.js ====="
 curl -fsSL https://rpm.nodesource.com/setup_20.x | sudo bash -
@@ -34,6 +34,13 @@ sudo dnf install mongodb-org -y
 
 sudo systemctl enable mongod
 sudo systemctl start mongod
+
+# Clone Git Repository
+
+cd /home/ec2-user
+
+git clone https://github.com/challatoora/full_project.git
+
 
 echo "===== Installing Node Packages ====="
 
