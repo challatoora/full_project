@@ -1,30 +1,3 @@
-// const mysql = require("mysql2/promise");
-// require("dotenv").config();
-
-// let connection;
-
-// async function connectMySQL() {
-
-//     connection = await mysql.createConnection({
-//         host: process.env.MYSQL_HOST,
-//         user: process.env.MYSQL_USER,
-//         password: process.env.MYSQL_PASSWORD,
-//         database: process.env.MYSQL_DATABASE
-//     });
-
-//     console.log("MySQL Connected");
-// }
-
-// function getConnection() {
-//     return connection;
-// }
-
-// module.exports = {
-//     connectMySQL,
-//     getConnection
-// };
-
-
 require("dotenv").config();
 
 const mysql = require("mysql2/promise");
@@ -34,20 +7,42 @@ let pool;
 
 async function connectDB(){
 
-    pool = mysql.createPool({
+    try{
 
-        host: process.env.DB_HOST,
+        pool = mysql.createPool({
 
-        user: process.env.DB_USER,
+            host: process.env.DB_HOST,
 
-        password: process.env.DB_PASSWORD,
+            user: process.env.DB_USER,
 
-        database: process.env.DB_NAME
+            password: process.env.DB_PASSWORD,
 
-    });
+            database: process.env.DB_NAME,
+
+            waitForConnections:true,
+
+            connectionLimit:10,
+
+            queueLimit:0
+
+        });
 
 
-    console.log("MySQL Database Connected Successfully");
+        await pool.query("SELECT 1");
+
+
+        console.log("MySQL Database Connected Successfully");
+
+
+    }
+    catch(error){
+
+        console.log("MySQL Connection Failed:");
+        console.log(error.message);
+
+        process.exit(1);
+
+    }
 
 }
 
