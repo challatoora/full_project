@@ -1,4 +1,4 @@
-const studentModel = require("../models/student");
+const studentModel = require("../models/studentModel");
 
 
 // GET ALL STUDENTS
