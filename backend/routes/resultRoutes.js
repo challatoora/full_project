@@ -1,28 +1,50 @@
-const express=require("express");
+const express = require("express");
 
-const router=express.Router();
+const router = express.Router();
 
-
-const resultController =
-require("../controllers/resultController");
+const resultController = require("../controllers/resultController");
 
 
+// Add Result
 router.post(
-"/",
-resultController.addResult
+    "/",
+    resultController.addResult
 );
 
 
+// Get All Results
 router.get(
-"/",
-resultController.getResults
+    "/",
+    resultController.getResults
 );
 
 
+// Get Result By Mongo ID
 router.get(
-"/student/:studentId",
-resultController.getResultByStudent
+    "/:id",
+    resultController.getResult
 );
 
 
-module.exports=router;
+// Get Results By Student ID
+router.get(
+    "/student/:studentId",
+    resultController.getResultByStudent
+);
+
+
+// Update Result
+router.put(
+    "/:id",
+    resultController.updateResult
+);
+
+
+// Delete Result
+router.delete(
+    "/:id",
+    resultController.deleteResult
+);
+
+
+module.exports = router;
