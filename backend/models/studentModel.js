@@ -1,67 +1,113 @@
-const { getDB } = require("../config/mysql");
+const studentModel = require("../models/student");
 
-async function getStudents(){
 
-    const db=getDB();
+exports.getStudents = async (req,res)=>{
 
-    const [rows]=await db.query("SELECT * FROM students");
+    try{
 
-    return rows;
-}
+        const students = await studentModel.getStudents();
 
-async function getStudent(id){
+        res.json(students);
 
-    const db=getDB();
+    }catch(error){
 
-    const [rows]=await db.query(
-        "SELECT * FROM students WHERE id=?",
-        [id]
-    );
+        res.status(500).json({
+            message:error.message
+        });
 
-    return rows[0];
-}
+    }
 
-async function addStudent(student){
+};
 
-    const db=getDB();
 
-    const {name,email,phone,department}=student;
 
-    await db.query(
-        `INSERT INTO students(name,email,phone,department)
-        VALUES(?,?,?,?)`,
-        [name,email,phone,department]
-    );
-}
+exports.getStudent = async (req,res)=>{
 
-async function updateStudent(id,student){
+    try{
 
-    const db=getDB();
+        const student = await studentModel.getStudent(req.params.id);
 
-    const {name,email,phone,department}=student;
+        res.json(student);
 
-    await db.query(
-        `UPDATE students
-        SET name=?,email=?,phone=?,department=?
-        WHERE id=?`,
-        [name,email,phone,department,id]
-    );
-}
+    }catch(error){
 
-async function deleteStudent(id){
+        res.status(500).json({
+            message:error.message
+        });
 
-    const db=getDB();
+    }
 
-    await db.query(
-        "DELETE FROM students WHERE id=?",
-        [id]
-    );
-}
+};
 
-module.exports={
-    getStudents,
-    getStudent,
-    addStudent,
-    updateStudent,
-    deleteStudent
+
+
+exports.addStudent = async (req,res)=>{
+
+    try{
+
+        await studentModel.addStudent(req.body);
+
+        res.status(201).json({
+            message:"Student Added Successfully"
+        });
+
+    }catch(error){
+
+        res.status(500).json({
+            message:error.message
+        });
+
+    }
+
+};
+
+
+
+exports.updateStudent = async(req,res)=>{
+
+    try{
+
+        await studentModel.updateStudent(
+            req.params.id,
+            req.body
+        );
+
+
+        res.json({
+            message:"Student Updated Successfully"
+        });
+
+
+    }catch(error){
+
+        res.status(500).json({
+            message:error.message
+        });
+
+    }
+
+};
+
+
+
+exports.deleteStudent = async(req,res)=>{
+
+    try{
+
+        await studentModel.deleteStudent(req.params.id);
+
+
+        res.json({
+            message:"Student Deleted Successfully"
+        });
+
+
+    }catch(error){
+
+        res.status(500).json({
+            message:error.message
+        });
+
+    }
+
 };

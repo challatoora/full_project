@@ -1,4 +1,4 @@
-const db = require("../config/db");
+const db = require("../config/mysql");
 
 
 exports.addStudent = (req,res)=>{
