@@ -13,8 +13,11 @@ exports.getStudents = async (req,res)=>{
     }
     catch(error){
 
+        console.log("GET STUDENTS ERROR:");
+        console.log(error);
+
         res.status(500).json({
-            message:error.message
+            message:error.message || "Internal Server Error"
         });
 
     }
@@ -35,8 +38,11 @@ exports.getStudent = async (req,res)=>{
     }
     catch(error){
 
+        console.log("GET STUDENT ERROR:");
+        console.log(error);
+
         res.status(500).json({
-            message:error.message
+            message:error.message || "Internal Server Error"
         });
 
     }
@@ -82,9 +88,12 @@ exports.addStudent = async(req,res)=>{
     }
     catch(error){
 
+        console.log("ADD STUDENT ERROR:");
+        console.log(error);
+
         res.status(500).json({
 
-            message:error.message
+            message:error.message || "Internal Server Error"
 
         });
 
@@ -115,9 +124,12 @@ exports.updateStudent = async(req,res)=>{
     }
     catch(error){
 
+        console.log("UPDATE STUDENT ERROR:");
+        console.log(error);
+
         res.status(500).json({
 
-            message:error.message
+            message:error.message || "Internal Server Error"
 
         });
 
@@ -145,9 +157,12 @@ exports.deleteStudent = async(req,res)=>{
     }
     catch(error){
 
+        console.log("DELETE STUDENT ERROR:");
+        console.log(error);
+
         res.status(500).json({
 
-            message:error.message
+            message:error.message || "Internal Server Error"
 
         });
 
