@@ -1,65 +1,156 @@
-const db = require("../config/mysql");
+const studentModel = require("../models/student");
 
 
-exports.addStudent = (req,res)=>{
+// GET ALL STUDENTS
+exports.getStudents = async (req,res)=>{
 
-    const {
-        name,
-        email,
-        phone,
-        department
-    } = req.body;
+    try{
+
+        const students = await studentModel.getStudents();
+
+        res.json(students);
+
+    }
+    catch(error){
+
+        res.status(500).json({
+            message:error.message
+        });
+
+    }
+
+};
 
 
-    // Validation
 
-    if(!name || !email || !phone || !department){
+// GET STUDENT BY ID
+exports.getStudent = async (req,res)=>{
 
-        return res.status(400).json({
+    try{
 
-            message:"All fields are required"
+        const student = await studentModel.getStudent(req.params.id);
+
+        res.json(student);
+
+    }
+    catch(error){
+
+        res.status(500).json({
+            message:error.message
+        });
+
+    }
+
+};
+
+
+
+// ADD STUDENT
+exports.addStudent = async(req,res)=>{
+
+    try{
+
+        const {
+            name,
+            email,
+            phone,
+            department
+        } = req.body;
+
+
+        if(!name || !email || !phone || !department){
+
+            return res.status(400).json({
+
+                message:"All fields are required"
+
+            });
+
+        }
+
+
+        await studentModel.addStudent(req.body);
+
+
+        res.status(201).json({
+
+            message:"Student Added Successfully"
+
+        });
+
+
+    }
+    catch(error){
+
+        res.status(500).json({
+
+            message:error.message
 
         });
 
     }
 
-
-    const sql = `
-    INSERT INTO students
-    (name,email,phone,department)
-    VALUES(?,?,?,?)
-    `;
+};
 
 
-    db.query(
-        sql,
-        [name,email,phone,department],
-        (err,result)=>{
+
+// UPDATE STUDENT
+exports.updateStudent = async(req,res)=>{
+
+    try{
+
+        await studentModel.updateStudent(
+            req.params.id,
+            req.body
+        );
 
 
-            if(err){
+        res.json({
 
-                console.log(err);
+            message:"Student Updated Successfully"
 
-                return res.status(500).json({
-
-                    message:"Database Error"
-
-                });
-
-            }
+        });
 
 
-            res.status(201).json({
+    }
+    catch(error){
 
-                message:"Student Added Successfully",
+        res.status(500).json({
 
-                id:result.insertId
+            message:error.message
 
-            });
+        });
+
+    }
+
+};
 
 
-        }
-    );
+
+// DELETE STUDENT
+exports.deleteStudent = async(req,res)=>{
+
+    try{
+
+        await studentModel.deleteStudent(req.params.id);
+
+
+        res.json({
+
+            message:"Student Deleted Successfully"
+
+        });
+
+
+    }
+    catch(error){
+
+        res.status(500).json({
+
+            message:error.message
+
+        });
+
+    }
 
 };
