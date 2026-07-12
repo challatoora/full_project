@@ -25,42 +25,41 @@
 // };
 
 
+require("dotenv").config();
+
 const mysql = require("mysql2/promise");
 
-let db;
+let pool;
 
-async function connectMySQL() {
 
-    db = await mysql.createConnection({
-        host: process.env.MYSQL_HOST,
-        user: process.env.MYSQL_USER,
-        password: process.env.MYSQL_PASSWORD
+async function connectDB(){
+
+    pool = mysql.createPool({
+
+        host: process.env.DB_HOST,
+
+        user: process.env.DB_USER,
+
+        password: process.env.DB_PASSWORD,
+
+        database: process.env.DB_NAME
+
     });
 
-    console.log("MySQL Connected");
 
-    await db.query(`CREATE DATABASE IF NOT EXISTS studentdb`);
+    console.log("MySQL Database Connected Successfully");
 
-    await db.query(`USE studentdb`);
-
-    await db.query(`
-        CREATE TABLE IF NOT EXISTS students(
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            name VARCHAR(100),
-            email VARCHAR(100),
-            phone VARCHAR(20),
-            department VARCHAR(100)
-        )
-    `);
-
-    console.log("Students table ready");
 }
+
 
 function getDB(){
-    return db;
+
+    return pool;
+
 }
 
-module.exports={
-    connectMySQL,
+
+module.exports = {
+    connectDB,
     getDB
 };
