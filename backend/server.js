@@ -2,10 +2,6 @@ require("dotenv").config();
 
 const app = require("./app");
 
-console.log("App Object:", app);
-console.log("Type of app:", typeof app);
-console.log("Type of app.listen:", typeof app.listen);
-
 const { connectMySQL } = require("./config/mysql");
 const connectMongoDB = require("./config/mongodb");
 
